@@ -3,7 +3,7 @@ const port = 8000;                              // declare port no
 const app = express();                          // calling express as function
 
 //use express router
-app.use('/',require('./routes/index'));
+app.use('/',require('./routes/index'));       // route all request to index.js of routes
 
 app.listen(port, function(err){                          //starting or firing up express server   
     if(err){

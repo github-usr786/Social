@@ -8,7 +8,10 @@ console.log("router loaded");
 
 router.get('/',homeController.home);               //called home function as callback function for route '/'
 
-router.get('/profile', homeController.profile);     //called profile function as callback function for route '/profile'
+router.get('/sample', homeController.sample);     //called sample function as callback function for route '/profile'
+
+//all requests of route '/users/ anything ' will be transfered to users.js of routes   
+router.use('/users', require('./users'));
 
 //exporting router
 module.exports = router;
