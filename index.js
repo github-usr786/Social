@@ -2,6 +2,8 @@ const express  = require('express');            //impoting express
 const port = 8000;                              // declare port no
 const app = express();                          // calling express as function
 
+//use express router
+app.use('/',require('./routes/index'));
 
 app.listen(port, function(err){                          //starting or firing up express server   
     if(err){
