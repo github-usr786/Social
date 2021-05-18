@@ -8,4 +8,10 @@ const userController = require('../controllers/user_controller');
 // '/users/profile' coz all request of route '/users' is transferd to user.js   from index.js of rotes
 router.get('/profile', userController.profile);
 
+router.get('/signin', userController.signin);
+
+router.get('/signup', userController.signup);
+
+router.post('/create', userController.create);
+
 module.exports = router;
