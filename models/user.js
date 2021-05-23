@@ -1,5 +1,4 @@
 // creating schema fro User collection(table)
-
 const mongoose = require('mongoose');
 
 //creting schema ->userSchema

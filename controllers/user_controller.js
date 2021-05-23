@@ -7,15 +7,24 @@ module.exports.profile = function(request, response){
 
 // Signin action/callback function
 module.exports.signin = function(request, response){    
+    //if user is already signed in -> -> restricting signin page access
+    if(request.isAuthenticated()){
+        return response.redirect('/users/profile');
+    }
+
      response.render('user_signin', {title: "user sign in"});
 }
 
 // Signup action/callback function
 module.exports.signup = function(request, response){
+    //if user is already signed in -> restricting signup page access
+    if(request.isAuthenticated()){
+        return response.redirect('/users/profile');
+    }
     response.render('user_signup', {title: "user signup"});
 }
 
-//Create action/callback function to crate user in dtabase
+//Create action/callback function to crate user in database
 module.exports.create = function(request, response){
     console.log(request.body);
     if(request.body.password != request.body.confirm_password)    //when both password don't maych --> error 
@@ -45,3 +54,13 @@ module.exports.create = function(request, response){
     });
 }
 
+//signin and create session for user
+module.exports.createSession = function(req, res){
+    return res.redirect('/');
+}
+
+//signout and destroy session of user
+module.exports.destroySession = function(req, res){
+    req.logout();                   //logout fun is given to request using passport.js to logout user
+    return res.redirect('/');
+}
