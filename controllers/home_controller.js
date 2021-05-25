@@ -15,9 +15,18 @@ module.exports.home  = function(request, response){
 
 //all documents(entries) of collection post is fetched 
         //populate user of each post, fetching all details of user and extracting user.name in home.ejs
-    Post.find({}).populate('user').exec(function(err, posts){
+        //nested population -> populating comment and user of that comment
+    Post.find({})
+                .populate('user')
+                .populate({
+                    path: 'comments',
+                    populate: {
+                    path: 'user' 
+                    }
+                })
+                .exec(function(err, posts){
 
-        if(err){console.log("Error in fetching all posts from db"); return;}
+        if(err){console.log("Error in fetching all posts along with comments and user commented  from db"); return;}
         
         // posts has all fetched post passed to posts of home.ejs for display
         response.render('home',{title:"home",posts: posts});
