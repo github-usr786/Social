@@ -4,7 +4,6 @@
             <%= title%>
         </title>
     </head>
-
     <body>
         <h1> Codial/<%= title%> </h1>
         <section id="feed-post">
@@ -22,7 +21,16 @@
                 <% for(post of posts){ %>
                     <li>
                         <p>
-                            <%= post.content%>  <br>
+                            <%= post.content%>
+                            <!-- check if some user is logged in and logged in user id is same user created post  -->
+                            <% if(locals.user &&  locals.user.id == post.user.id) { %>
+                            <small>
+                                <!-- when X is clicked id of post is send to route /post/destroy -->
+                                <a href="/posts/destroy/<%= post.id %>"> X </a>
+                            </small>
+                        
+                            <% } %>   
+                            <br>
                             <small>
                                 <%= post.user.name%>
                             </small>
@@ -40,11 +48,18 @@
                             <ul id = "post-comment-<%= post._id%>">
                                 <% for(comment of post.comments){ %>
                                 <p>
-                                    <%= comment.content%>   <br>
+                                    <%= comment.content%> 
+                        <!-- check if some user is logged in and logged in user id is same user created comment  -->  
+                                    <% if(locals.user &&  locals.user.id == comment.user.id ) { %>
+                                        <small>
+                                            <!-- when X is clicked id of comment is send to route /comment/destroy -->
+                                            <a href="/comments/destroy/<%= comment.id %>"> X </a>
+                                        </small>
+                                    <% } %>  
+                                    <br>
                                     <small>
                                         <%= comment.user.name%>
-                                    </small>
-                                       
+                                    </small>                                   
                                 </p>
                                 <% } %>
                             </ul>

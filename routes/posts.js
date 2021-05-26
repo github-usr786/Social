@@ -12,4 +12,7 @@ const postController  = require('../controllers/post_controller');
     //use middleware function 'passport.checkAuthentication' (created in config/passport-local-strategy) to check auth.
 router.post('/create',passport.checkAuthentication, postController.create);
 
+//:id will be passed from views - home.ejs <a> tag
+router.get('/destroy/:id',passport.checkAuthentication, postController.destroy);
+
 module.exports = router;
