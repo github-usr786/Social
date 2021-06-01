@@ -13,7 +13,7 @@ db.on('error',console.error.bind(console, 'Error connecting to database'));
 //sucessfully connected to database
 db.once('open', function()
 {
-    console.log("Sucessfully connected to database: Mongodb");
+    console.log("Sucessfully connected to database: MongoDB");
 });
 
 //exporting connection instance of db

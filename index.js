@@ -13,8 +13,10 @@ const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 
 const MongoStore = require('connect-mongo');          //impoting connect-mongo 
+const flash = require('connect-flash');              //library for flash message  
+const customMware  = require('./config/middleware');       //middleware for flash msg
 
-app.use(express.urlencoded({extended: true }))      //using urlencoded to parse/read through post request
+app.use(express.urlencoded({extended: true }));      //using urlencoded to parse/read through post request
 
 app.use(cookieParser());                            //using cookie-parser
      
@@ -60,6 +62,10 @@ app.use(passport.session());
     //when passport is initialize, then this middleware fun(setAthenticatedUser-created in config/passport-local-strategy)
     // is automatically called
 app.use(passport.setAthenticatedUser);
+
+//for flash meassage
+app.use(flash()); 
+app.use(customMware.setFlash);                       //middleware for flash msg
 
 
 //use express router

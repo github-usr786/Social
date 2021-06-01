@@ -1,0 +1,50 @@
+<ul>
+     <% for(post of posts){ %>
+    <li id="post-<%= post._id%>">
+        <p>
+            <%= post.content%>
+            <!-- check if some user is logged in and logged in user id is same user created post  -->
+            <% if(locals.user &&  locals.user.id == post.user.id) { %>
+            <small>
+                <!-- when X is clicked id of post is send to route /post/destroy -->
+                <a class = "delete-post-button" href="/posts/destroy/<%= post.id %>"> X </a>
+            </small>
+        
+            <% } %>   
+            <br>
+            <small>
+                <%= post.user.name%>
+            </small>
+        </p>
+    <div class = "post-comments">
+        <% if(locals.user) { %>
+        <form action="comments/create" method ="POST">
+            <input type="text" name="content" placeholder="Type here to add comment.." required>
+            <input type ="hidden" name ="post" value="<%= post._id%>" >
+            <input type="submit" value="add comment">
+        </form>
+        <% } %>
+    </div>
+    <div class="post-comment-list">
+        <ul id = "post-comment-<%= post._id%>">
+            <% for(comment of post.comments){ %>
+            <p>
+                <%= comment.content%> 
+    <!-- check if some user is logged in and logged in user id is same user created comment  -->  
+                <% if(locals.user &&  locals.user.id == comment.user.id ) { %>
+                    <small>
+                        <!-- when X is clicked id of comment is send to route /comment/destroy -->
+                        <a href="/comments/destroy/<%= comment.id %>"> X </a>
+                    </small>
+                 <% } %>  
+                    <br>
+                    <small>
+                    <%= comment.user.name%>
+                    </small>                                   
+                </p>
+                <% } %>
+            </ul>
+       </div>
+    </li>
+ <% } %>
+ </ul>

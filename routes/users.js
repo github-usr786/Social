@@ -10,7 +10,10 @@ const userController = require('../controllers/user_controller');
 
 //before accessing profile shld check if user is signed in (authenticated)
     //use middleware function 'passport.checkAuthentication' (created in config/passport-local-strategy) to check auth.
-router.get('/profile',passport.checkAuthentication, userController.profile);
+    //:id to open profile of tht user
+router.get('/profile/:id',passport.checkAuthentication, userController.profile);
+
+router.post('/update/:id',passport.checkAuthentication, userController.update);
 
 router.get('/signin', userController.signin);
 

@@ -2,16 +2,30 @@ const Post  = require('../models/post');            //importing Post collection 
 const Comment = require('../models/comment');                
 
 //to create a post
-module.exports.create = function(req, res){
-    Post.create({
-        content: req.body.content,                      //content of post   
-        user: req.user._id                              //user id of user signed in 
-    },
-    function(err, post){
-        if(err) { console.log("error in creating post"); return; }
+module.exports.create = async function(req, res){
+    try{
+            let post = await Post.create({
+            content: req.body.content,                      //content of post   
+            user: req.user._id                              //user id of user signed in 
+            });
         
+        //when request of ajax -> i.e xhr(xml http request)  -> returning response with post created 
+            if(req.xhr){
+                return res.status(200).json({
+                    data:{
+                        post: post
+                    },
+                    message: "Post created!"
+                });
+            }
+
+            req.flash('success',"Post Published!");
+            return res.redirect('back');
+
+        }catch(err){
+        req.flash('error',err);
         return res.redirect('back');
-    });
+    }   
 }
 
 // to delete/destroy a post -> associated comments shld also be deleted along with post
@@ -26,10 +40,20 @@ module.exports.destroy = function(req, res){
 
             //all comments in Comment collection whose post id match will be deleted
             Comment.deleteMany({post: req.params.id}, function(err, post){
-                //handle errror
+                //handle errror  
+                
+            });
 
-                return res.redirect('back');
-            })
+    //ajax part-> when request of ajax -> i.e xhr(xml http request)  -> returning response
+     if(req.xhr){
+                return res.status(200).json({
+                    data:{
+                        post_id: req.params.id
+                    },
+                    message: "Post deleted!"
+                });
+            }
+            return res.redirect('back'); 
         }
         else{   //another user is trying to delete
             return res.redirect('back');
