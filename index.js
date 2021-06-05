@@ -11,6 +11,7 @@ const db = require('./config/mongoose');            //importing config/mongoose 
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
+const passportJWT = require('./config/passport-jwt-strategy');
 
 const MongoStore = require('connect-mongo');          //impoting connect-mongo 
 const flash = require('connect-flash');              //library for flash message  
@@ -24,6 +25,10 @@ app.use(bodyParser.json());
 
 // accesing static files
 app.use(express.static('assets'));                  // it will find folder assets having css,images,fonts as subfolder
+
+//joined upload path to index.js for route to uploads
+//make uploads path available to browser
+app.use('/uploads', express.static(__dirname +'/uploads'));
 
 app.use(expressLayouts);                                    //using expressLayouts
 // extract style and scripts from sub pages into the layout

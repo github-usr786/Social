@@ -19,6 +19,9 @@ router.use('/posts',require('./posts'));
 //all requests of route '/posts/ anything ' will be transfered to posts.js of routes folder   
 router.use('/comments',require('./comments'));
 
+//all requests of route '/api/ anything ' will be transfered to api of routes   
+router.use('/api', require('./api'));
+
 //all requests of route '/sample/ anything ' will be transfered to users.js of routes   
 router.use('/demons', require('./demo'));
 

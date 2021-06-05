@@ -1,4 +1,6 @@
 const User = require('../models/user');                     //importin models/user having schema of collection
+const fs  = require('fs');
+const path  = require('path');
 
 //Profile action/callback function
 module.exports.profile = function(request, response){
@@ -10,16 +12,56 @@ module.exports.profile = function(request, response){
 }
 
 //update action/function to update profile of user
-module.exports.update = function(req, res){
+    //now fun converted into async await
+module.exports.update = async function(req, res){
+
+    // if(req.user.id == req.params.id)
+    // {
+    //     //finding user by req.params.id and updating it with req.body 
+    //     User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+    //             return res.redirect('back');
+    //     });
+    // }
+    // else
+    // {
+    //     return res.status(401).send('Unauthorized');
+    // }
+
     if(req.user.id == req.params.id)
     {
-        //finding user by req.params.id and updating it with req.body 
-        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+        try{
+            //finding user
+            let user = await User.findById(req.params.id);
+            //here form(in user_profile.ejs) enctype= multipart so json parser cannot parse it.. multer is used
+            //uploadedAvatar fun is used
+            User.uploadedAvatar(req, res, function(err){
+                if(err){ console.log("**** Multer error: ", err); }
+                //console.log(req.file);
+
+                user.name = req.body.name;
+                user.email = req.body.email;
+                //when profile pic is also uploaded
+                if(req.file){
+
+                    //remove already stored file (profile pic) to save newly uploaded
+                    if(user.avatar)
+                    {
+                        fs.unlinkSync(path.join(__dirname, '..', user.avatar ));
+                    }
+
+                    //this is saving the path of uploaded file into avatar field in the user collection(table)
+                    user.avatar = User.avatarPath +'/'+ req.file.filename;
+                }
+                user.save();
                 return res.redirect('back');
-        });
-    }
-    else
-    {
+            });
+            }catch(err){
+            req.flash('error',err);
+            return res.redirect('back');
+        }
+
+    }else{
+        req.flash('error', 'Unauthorized!');
         return res.status(401).send('Unauthorized');
     }
 }

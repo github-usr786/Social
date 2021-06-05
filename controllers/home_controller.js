@@ -57,6 +57,8 @@ try{
         path: 'user' 
         }
     });
+
+    //console.log(posts);
     
     let users = await User.find({});      //next this will execute and store result into users after completion of posts
 
