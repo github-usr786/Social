@@ -1,18 +1,12 @@
-#home-container{
-    display:flex;
-    background-color: grey;
-    }
-    #feed-post{
-        width: 70%;
-        padding: 10px;
-        font-family: Georgia, 'Times New Roman', Times, serif;
-        font-size: 1rem;
-    }
-    #user-friends{
-        width: 30%;
-        padding: 10px;
-        border-left: 10px, solid, goldenrod;
-        font-family: sans-serif;
-        font-size: 1.2rem;
-    }
+#home-container {
+  display: flex; }
+  #home-container #feed-posts {
+    width: 70%;
+    padding: 20px; }
+  #home-container #user-friends {
+    margin-left:50%;
+    width: 30%;
+    padding: 20px;
+    border-left: 1px solid lightgrey;
+    height: 100%; }
 
